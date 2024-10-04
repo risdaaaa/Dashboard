@@ -22,7 +22,7 @@ Welcome to the **QISHOP E-Commerce Dashboard**! This dashboard provides insights
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/viragohuegah/E-Commerce-Public-Dataset-Analysis.git
+    git clone https://github.com/risdaaaa/Dashboard-E-Commerce-Public-Dataset-Analysis.git
     ```
 
 2. Navigate to the project directory:
