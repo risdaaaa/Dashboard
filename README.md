@@ -1,6 +1,6 @@
 # Dashboard E-Commerce-Public-Dataset-Analysis
 
-Welcome to the **QISHOP E-Commerce Dashboard**! This dashboard provides insights into our e-commerce data, featuring daily orders, best and worst performing products, distribution payment method, customer and seller distributions, RFM analysis
+Welcome to the **My E-Commerce Dashboard**! This dashboard provides insights into our e-commerce data, featuring daily orders, best and worst performing products, distribution payment method, customer and seller distributions, RFM analysis
 
 ## Demo
 ![My App](demo.gif)
