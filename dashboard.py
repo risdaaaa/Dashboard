@@ -3,12 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-import folium
-from folium.plugins import MarkerCluster
 import streamlit as st
-from babel.numbers import format_currency
-from streamlit_folium import st_folium
-from folium.plugins import FastMarkerCluster
+
 
 
 sns.set(style='whitegrid')
