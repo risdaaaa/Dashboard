@@ -3,8 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import folium
+from folium.plugins import MarkerCluster
 import streamlit as st
-
+from babel.numbers import format_currency
+from streamlit_folium import st_folium
+from folium.plugins import FastMarkerCluster
 
 
 sns.set(style='whitegrid')
@@ -274,6 +278,74 @@ for i in ax[1].patches:
                f'{int(i.get_width())}', ha='right', va='center', fontsize=14, color='black', weight='bold')
 
 st.pyplot(fig)
+
+#=====================================================================================================================
+# 
+# Menghapus duplikasi berdasarkan 'seller_id'
+unique_sellers_df = df.drop_duplicates(subset='seller_id')
+unique_customers_df = df.drop_duplicates(subset='customer_id')
+
+# Check if the required columns exist in the DataFrame
+if 'geolocation_lat_customer' not in df.columns or 'geolocation_lng_customer' not in df.columns:
+    st.error("Missing customer geolocation data.")
+if 'geolocation_lat_seller' not in df.columns or 'geolocation_lng_seller' not in df.columns:
+    st.error("Missing seller geolocation data.")
+
+# Tentukan lokasi rata-rata pelanggan untuk peta
+map_center_customer = [
+    unique_customers_df['geolocation_lat_customer'].mean(), 
+    unique_customers_df['geolocation_lng_customer'].mean()
+]
+
+# Tentukan lokasi rata-rata penjual untuk peta
+map_center_seller = [
+    unique_sellers_df['geolocation_lat_seller'].mean(), 
+    unique_sellers_df['geolocation_lng_seller'].mean()
+]
+
+# Prepare customer location data (lat, lng)
+customer_locations = [
+    [lat, lng] for lat, lng in zip(unique_customers_df['geolocation_lat_customer'], 
+                                   unique_customers_df['geolocation_lng_customer'])
+]
+
+mymap_customer = folium.Map(
+    location=map_center_customer, 
+    zoom_start=6, 
+)
+
+# Use FastMarkerCluster for customer locations
+FastMarkerCluster(data=customer_locations).add_to(mymap_customer)
+
+# Prepare seller location data (lat, lng)
+seller_locations = [
+    [lat, lng] for lat, lng in zip(unique_sellers_df['geolocation_lat_seller'], 
+                                   unique_sellers_df['geolocation_lng_seller'])
+]
+
+mymap_seller = folium.Map(
+    location=map_center_seller, 
+    zoom_start=6, 
+)
+
+# Use FastMarkerCluster for seller locations
+FastMarkerCluster(data=seller_locations).add_to(mymap_seller)
+
+# Display the maps in Streamlit
+st.header("Customer and Seller Geolocation Distribution")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Distribution of Customers")
+    st_folium(mymap_customer, width=700, height=400)
+
+with col2:
+    st.subheader("Distribution of Sellers")
+    st_folium(mymap_seller, width=700, height=400)
+
+if __name__ == "__main__":
+    pass
 
 #====================================================================================================================
 
