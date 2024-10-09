@@ -61,7 +61,7 @@ def create_rfm_df(df, recent_date):
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("all_data.csv")
+    df = pd.read_csv("all_data.rar")
     datetime_columns = ["order_approved_at",
                         "order_delivered_customer_date",
                         "order_delivered_carrier_date",
