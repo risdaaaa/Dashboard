@@ -162,6 +162,53 @@ for i in ax[1].patches:
 
 st.pyplot(fig)
 
+
+st.header("Best Customer Based on RFM Parameters")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    avg_recency = round(rfm_df.recency.mean(), 1)
+    st.metric("Average Recency (days)", value=avg_recency)
+
+with col2:
+    avg_frequency = round(rfm_df.frequency.mean(), 2)
+    st.metric("Average Frequency", value=avg_frequency)
+
+with col3:
+    avg_monetary = format_currency(rfm_df.monetary.mean(), "BRL", locale='pt_BR')
+    st.metric("Average Monetary", value=avg_monetary)
+
+rfm_df['short_customer_id'] = rfm_df['customer_id'].apply(lambda x: x[:5])  
+
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))
+
+colors = ["#8EACCD", "#8EACCD", "#8EACCD", "#8EACCD", "#8EACCD"]
+
+sns.barplot(y="recency", x="short_customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
+ax[0].set_ylabel(None)
+ax[0].set_xlabel(None)
+ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
+ax[0].tick_params(axis ='x', labelsize=15)
+
+sns.barplot(y="frequency", x="short_customer_id", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1])
+ax[1].set_ylabel(None)
+ax[1].set_xlabel(None)
+ax[1].set_title("By Frequency", loc="center", fontsize=18)
+ax[1].tick_params(axis='x', labelsize=15)
+
+sns.barplot(y="monetary", x="short_customer_id", data=rfm_df.sort_values(by="monetary", ascending=False).head(5), palette=colors, ax=ax[2])
+ax[2].set_ylabel(None)
+ax[2].set_xlabel(None)
+ax[2].set_title("By Monetary", loc="center", fontsize=18)
+ax[2].tick_params(axis='x', labelsize=15)
+
+for axis in ax:
+    axis.tick_params(axis='x', rotation=45)
+
+st.pyplot(fig)
+
+
 st.header("Our Ratings by Customers")
 
 review_score_counts = df.groupby('review_score')['order_id'].count().sort_values(ascending=False)
@@ -303,51 +350,6 @@ with col2:
 
 if __name__ == "__main__":
     pass
-
-st.header("Best Customer Based on RFM Parameters")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    avg_recency = round(rfm_df.recency.mean(), 1)
-    st.metric("Average Recency (days)", value=avg_recency)
-
-with col2:
-    avg_frequency = round(rfm_df.frequency.mean(), 2)
-    st.metric("Average Frequency", value=avg_frequency)
-
-with col3:
-    avg_monetary = format_currency(rfm_df.monetary.mean(), "BRL", locale='pt_BR')
-    st.metric("Average Monetary", value=avg_monetary)
-
-rfm_df['short_customer_id'] = rfm_df['customer_id'].apply(lambda x: x[:5])  
-
-fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))
-
-colors = ["#8EACCD", "#8EACCD", "#8EACCD", "#8EACCD", "#8EACCD"]
-
-sns.barplot(y="recency", x="short_customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
-ax[0].set_ylabel(None)
-ax[0].set_xlabel(None)
-ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
-ax[0].tick_params(axis ='x', labelsize=15)
-
-sns.barplot(y="frequency", x="short_customer_id", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1])
-ax[1].set_ylabel(None)
-ax[1].set_xlabel(None)
-ax[1].set_title("By Frequency", loc="center", fontsize=18)
-ax[1].tick_params(axis='x', labelsize=15)
-
-sns.barplot(y="monetary", x="short_customer_id", data=rfm_df.sort_values(by="monetary", ascending=False).head(5), palette=colors, ax=ax[2])
-ax[2].set_ylabel(None)
-ax[2].set_xlabel(None)
-ax[2].set_title("By Monetary", loc="center", fontsize=18)
-ax[2].tick_params(axis='x', labelsize=15)
-
-for axis in ax:
-    axis.tick_params(axis='x', rotation=45)
-
-st.pyplot(fig)
 st.caption('Copyright (c) risdew')
 
 
