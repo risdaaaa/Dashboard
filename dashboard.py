@@ -337,11 +337,11 @@ st.header("Customer and Seller Geolocation Distribution")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Distribution of Customers")
+    st.markdown("<h3 style='font-size:16px;'>Distribution of Customers</h3>", unsafe_allow_html=True)
     st_folium(mymap_customer, width=400, height=400)
 
 with col2:
-    st.subheader("Distribution of Sellers")
+    st.markdown("<h3 style='font-size:16px;'>Distribution of Sellers</h3>", unsafe_allow_html=True)
     st_folium(mymap_seller, width=400, height=400)
 
 if __name__ == "__main__":
