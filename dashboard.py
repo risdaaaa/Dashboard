@@ -338,11 +338,11 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Distribution of Customers")
-    st_folium(mymap_customer, width=700, height=400)
+    st_folium(mymap_customer, width=400, height=400)
 
 with col2:
     st.subheader("Distribution of Sellers")
-    st_folium(mymap_seller, width=700, height=400)
+    st_folium(mymap_seller, width=400, height=400)
 
 if __name__ == "__main__":
     pass
